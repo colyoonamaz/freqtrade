@@ -1,0 +1,20 @@
+Name: test-large
+SchemaVersion: "1.0"
+
+Actions:
+  Build:
+    Identifier: aws/build@v1
+    Inputs:
+      Sources:
+        - WorkflowSource
+    Configuration:
+      Steps:
+        - Run: cd build_helpers
+        - Run: ./install_ta-lib.sh ${HOME}/dependencies/
+        - Run: cd ..
+        - Run: python -m pip install --upgrade pip wheel
+        - Run: export LD_LIBRARY_PATH=${HOME}/dependencies/lib:$LD_LIBRARY_PATH
+        - Run: export TA_LIBRARY_PATH=${HOME}/dependencies/lib
+        - Run: export TA_INCLUDE_PATH=${HOME}/dependencies/include
+        - Run: pip install -r requirements-dev.txt
+        - Run: pip install -e .
